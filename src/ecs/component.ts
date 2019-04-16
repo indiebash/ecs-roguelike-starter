@@ -1,3 +1,3 @@
-export interface Component {
-    init: Function;
-}
+    export interface Component {
+        init: Function;
+    }

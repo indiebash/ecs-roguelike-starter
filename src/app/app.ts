@@ -1,10 +1,11 @@
 import { EntityManager } from "../ecs";
+import { appSystems } from "./app-systems";
 
 export class App {
     entityManager: EntityManager;
 
     constructor() {
-        this.entityManager = new EntityManager();
+        this.entityManager = new EntityManager(appSystems);
     }
 
     init() {

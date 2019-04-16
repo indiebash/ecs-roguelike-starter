@@ -1,6 +1,6 @@
-import { Component } from "./";
+import { Component } from "./component";
 
-export class Entity {
-    id: number;
-    components: Map<number, Component>;
-}
+    export class Entity {
+        id: number;
+        components: Map<number, Component>;
+    }

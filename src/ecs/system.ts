@@ -3,25 +3,24 @@ export abstract class System {
     update: Function;
 }
 
-// export namespace System {
-//     type Constructor<T> = {
-//       new(...args: any[]): T;
-//       readonly prototype: T;
-//     }
-//     // const implementations: Constructor<System>[] = [];
-//     // export function GetImplementations(): Constructor<System>[] {
-//     //   return implementations;
-//     // }
-//     // export function register<T extends Constructor<System>>(ctor: T) {
-//     //   implementations.push(ctor);
-//     //   return ctor;
-//     // }
+// type Constructor<T> = {
+//     new(...args: any[]): T;
+//     readonly prototype: T;
+// }
+// const implementations: Constructor<System>[] = [];
+// export function GetImplementations(): Constructor<System>[] {
+//     return implementations;
+// }
+// export function system<T extends Constructor<System>>(ctor: T) {
+//     implementations.push(ctor);
+//     console.log('systems implementations', implementations);
+//     return ctor;
+// }
 
-//     export const registeredClasses = [];
-//     export function register() {
-//      return function(target: Function) {
-//           registeredClasses.push(target);
-//           console.log(registeredClasses);
-//      };
-// }
-// }
+    // export const registeredClasses = [];
+    // export function register() {
+    //  return function(target: Function) {
+    //       registeredClasses.push(target);
+    //       console.log(registeredClasses);
+    //  };
+    //}
