@@ -1,2 +1,2 @@
-export * from './gravitySystem';
-export * from './movementSystem';
+export * from './gravity-system';
+export * from './movement-system';

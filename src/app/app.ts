@@ -1,21 +1,18 @@
-import { EntityManager } from "../ecs";
 import { appSystems } from "./app-systems";
+import { Engine, Entity } from "../ecs";
+import { PositionComponent } from "./components";
 
 export class App {
-    entityManager: EntityManager;
+    engine: Engine;
 
     constructor() {
-        this.entityManager = new EntityManager(appSystems);
+        this.engine = new Engine();
+        this.engine.addSystems(...appSystems);
+        let entity = new Entity();
+        entity.putComponent(PositionComponent);
+        this.engine.addEntity(entity);
+        this.engine.update(0);
+        this.engine.update(0);
+        this.engine.update(0);
     }
-
-    init() {
-        this.update();
-        this.update();
-        this.update();
-    };
-
-    update() {
-        console.log('updating');
-        this.entityManager.update();
-    };
 }

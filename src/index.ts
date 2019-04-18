@@ -1,3 +1,3 @@
 import { App } from "./app/app";
 
-new App().init();
+new App();
