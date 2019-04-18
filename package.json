@@ -22,5 +22,8 @@
     "chai": "^4.1.2",
     "husky": "^0.14.3",
     "typescript": "^3.4.3"
+  },
+  "dependencies": {
+    "rot-js": "^2.0.3"
   }
 }

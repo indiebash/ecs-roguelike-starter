@@ -1,2 +1,2 @@
-export * from './gravity-system';
-export * from './movement-system';
+export * from './map-generation-system';
+export * from './render-system';
