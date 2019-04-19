@@ -2,50 +2,33 @@ import { Family, Engine, FamilyBuilder, System } from "../../ecs";
 import { Display } from "rot-js";
 import { PositionComponent, RenderComponent } from "../components";
 import { DisplayOptions } from "rot-js/lib/display/types";
+import tilesetImage from "../../img/tileset.png";
 
 export class RenderSystem extends System {
-    tileset: HTMLImageElement
+    //tileset: HTMLImageElement
     family: Family;
 
     onAttach(engine: Engine) {
-        this.tileset = <HTMLImageElement>document.getElementById("tileset");
-        // this.tileset.src = "img/tileset.png";
+        let tileset = new Image();
+        tileset.src = tilesetImage;
+        //tileset.onload = function(){console.log('image works')};
 
-        // this.tileset.onload = function () {
-        //     console.log('loaded image');
-        //     this.tileset.id = 'tileset';
-        //     this.update(engine, 0);
-        // }.bind(this);
-
-        // function loaded() {
-        //     alert('loaded')
-        //   }
-
-        //   if (this.tileset.complete) {
-        //     loaded()
-        //   } else {
-        //     this.tileset.addEventListener('load', loaded)
-        //     this.tileset.addEventListener('error', function() {
-        //         alert('error')
-        //     })
-        //   }
-
-        let options = {
+        let options: Partial<DisplayOptions> = {
             layout: "tile",
             bg: "transparent",
             tileWidth: 16,
             tileHeight: 16,
-            tileSet: this.tileset,
+            tileSet: tileset,
             tileMap: {
-                "@": [0, 16],
+                "@": [16, 0],
                 "#": [0, 64],
-                '.': [0, 4]
+                '.': [176, 32]
             },
-            width: 1,
-            height: 1
+            width: 50,
+            height: 50
         }
 
-        engine['display'] = new Display();
+        engine['display'] = new Display(options);
 
         document.body.appendChild(engine['display'].getContainer());
 
