@@ -1,6 +1,7 @@
 import { appSystems } from "./app-systems";
 import { Engine, Entity } from "../ecs";
 import { PositionComponent } from "./components";
+import { BlueprintType } from "./constants";
 
 export class App {
     engine: Engine;

@@ -1,6 +1,6 @@
 import { System, Engine, Entity } from "../../ecs";
 import { Map, RNG } from 'rot-js';
-import { TileType } from "../constants";
+import { TileType, BlueprintType } from "../constants";
 import { PositionComponent } from "../components";
 import { RenderComponent } from "../components/render-component";
 
@@ -29,7 +29,7 @@ export class MapGenerationSystem extends System {
     }
 
     buildMapEntity(engine: Engine, x: number, y: number, value: TileType) {
-        let entity = new Entity();
+        let entity = new Entity(BlueprintType.Renderable);
         entity.putComponent(PositionComponent);
         entity.getComponent(PositionComponent).x = x;
         entity.getComponent(PositionComponent).y = y;

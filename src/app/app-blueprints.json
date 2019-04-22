@@ -1,0 +1,10 @@
+[
+    {
+        "name": "Renderable",
+        "blueprints": [],
+        "components": [
+            { "name": "PositionComponent", "values": {} },
+            { "name": "RenderComponent", "values": {} }
+        ]
+    }
+]

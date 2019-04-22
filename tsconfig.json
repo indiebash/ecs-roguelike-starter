@@ -6,6 +6,8 @@
       "strictNullChecks": true,
       "removeComments": true,
       "preserveConstEnums": true,
+      "resolveJsonModule": true,
+      "allowSyntheticDefaultImports": true,
       "outDir": "lib",
       "sourceMap": true,
       "declaration": true,

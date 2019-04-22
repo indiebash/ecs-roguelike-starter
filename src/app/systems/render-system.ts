@@ -2,6 +2,7 @@ import { Family, Engine, FamilyBuilder, System } from "../../ecs";
 import { Display } from "rot-js";
 import { PositionComponent, RenderComponent } from "../components";
 import { DisplayOptions } from "rot-js/lib/display/types";
+// @ts-ignore
 import tilesetImage from "../../img/tileset.png";
 
 export class RenderSystem extends System {
