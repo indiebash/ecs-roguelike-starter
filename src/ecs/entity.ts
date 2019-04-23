@@ -30,19 +30,27 @@ class Entity {
     }
   }
 
-  getBlueprintFromType(type: BlueprintType): Blueprint {
-    let json = data.find(x => x.name === type);
-    if(!json) {
-      throw new Error("Cannot find blueprint by that name.")
+  private getBlueprintFromType(type: BlueprintType): Blueprint {
+    let jsonBlueprint = data.find(x => x.name === type);
+    if(!jsonBlueprint) {
+      throw new Error("Cannot find blueprint by that name.");
     }
+    return this.buildBlueprintFromJson(jsonBlueprint);
+  }
 
+  private buildBlueprintFromJson(jsonBlueprint): Blueprint {
     return new Blueprint(
-      type,
-      this.getComponentsFromJson(json.components)
+      jsonBlueprint.name,
+      this.getComponentsFromJson(jsonBlueprint.components),
+      this.hasBlueprints(jsonBlueprint) ? jsonBlueprint.blueprints.map(x => this.buildBlueprintFromJson(x)) : [] 
     );
   }
 
-  getComponentsFromJson(components): BlueprintComponent[] {
+  private hasBlueprints(jsonBlueprint) {
+    return jsonBlueprint.blueprints && jsonBlueprint.blueprints.length > 0;
+  }
+
+  private getComponentsFromJson(components): BlueprintComponent[] {
     console.log('trying to build components', components);
     if(!components || components.length === 0) {
       throw new Error("Blueprint must implement one or more components.");
