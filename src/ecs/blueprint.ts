@@ -11,6 +11,7 @@ export class Blueprint {
         this.components = components;
         this.blueprints = blueprints ? blueprints : [];
     }
+    
 }
 
 export class BlueprintComponent {

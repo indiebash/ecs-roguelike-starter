@@ -1,8 +1,4 @@
 import { ComponentClass, Component } from "./Component";
-import { BlueprintType } from "../app/constants";
-import data from '../app/app-blueprints.json';
-import { Blueprint, BlueprintComponent } from "./blueprint";
-import * as c from '../app/components';
 
 type EntityChangeListener = (entity: Entity) => any;
 
@@ -24,40 +20,7 @@ class Entity {
     [tag: string]: ComponentClass<Component>;
   } = {};
 
-  constructor(type?: BlueprintType) {
-    if(type) {
-      console.log('building from blueprint', this.getBlueprintFromType(type));
-    }
-  }
-
-  private getBlueprintFromType(type: BlueprintType): Blueprint {
-    let jsonBlueprint = data.find(x => x.name === type);
-    if(!jsonBlueprint) {
-      throw new Error("Cannot find blueprint by that name.");
-    }
-    return this.buildBlueprintFromJson(jsonBlueprint);
-  }
-
-  private buildBlueprintFromJson(jsonBlueprint): Blueprint {
-    return new Blueprint(
-      jsonBlueprint.name,
-      this.getComponentsFromJson(jsonBlueprint.components),
-      this.hasBlueprints(jsonBlueprint) ? jsonBlueprint.blueprints.map(x => this.buildBlueprintFromJson(x)) : [] 
-    );
-  }
-
-  private hasBlueprints(jsonBlueprint) {
-    return jsonBlueprint.blueprints && jsonBlueprint.blueprints.length > 0;
-  }
-
-  private getComponentsFromJson(components): BlueprintComponent[] {
-    console.log('trying to build components', components);
-    if(!components || components.length === 0) {
-      throw new Error("Blueprint must implement one or more components.");
-    } else {
-      return components.map(x => new BlueprintComponent(c[x.name], x.values));
-    }
-  }
+  constructor() {}
 
   /**
    * Gets the id of the entity.

@@ -12,7 +12,6 @@ export class RenderSystem extends System {
     onAttach(engine: Engine) {
         let tileset = new Image();
         tileset.src = tilesetImage;
-        //tileset.onload = function(){console.log('image works')};
 
         let options: Partial<DisplayOptions> = {
             layout: "tile",
