@@ -1,5 +1,7 @@
 import { Component } from "../../ecs";
 
 export class RenderComponent implements Component {
-    value: string = '';
+    value: string;
+    color: string;
+    background: string = "transparent";
 }

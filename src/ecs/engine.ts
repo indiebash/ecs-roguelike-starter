@@ -1,5 +1,7 @@
 import { Entity } from "./entity";
 import { System } from "./system";
+import { EntityFactory } from "./entity-factory";
+import { BlueprintType } from "../app/constants";
 
 interface EngineEntityListener {
   onEntityAdded(entity: Entity): void;
@@ -20,6 +22,21 @@ class Engine {
   private readonly _systems: System[] = [];
   /** Checks if the system needs sorting of some sort */
   private _systemsNeedSorting: boolean = false;
+  /** Factory for creating entities based off blueprints */
+  private entityFactory: EntityFactory;
+
+  constructor(entityFactory?: EntityFactory) {
+    if(entityFactory) {
+      this.entityFactory = entityFactory;
+    }
+  }
+  /**
+   * Builds entity from blueprint.
+   * @param type The type of blueprint to create entity from. 
+   */
+  buildEntity(type: BlueprintType): Entity {
+    return this.entityFactory.buildEntity(type);
+  }
   /**
    * Computes an immutable list of entities added to the engine.
    */

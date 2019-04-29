@@ -1,14 +1,14 @@
 import { appSystems } from "./app-systems";
-import { Engine, Entity } from "../ecs";
+import { Engine, Entity, EntityFactory } from "../ecs";
 import { PositionComponent } from "./components";
-import { BlueprintType } from "./constants";
-import data from '../app/app-blueprints.json';
+import blueprints from '../app/app-blueprints.json';
+import * as components from './components';
 
 export class App {
     engine: Engine;
 
     constructor() {
-        this.engine = new Engine();
+        this.engine = new Engine(new EntityFactory(blueprints, components));
         this.engine.addSystems(...appSystems);
         let entity = new Entity();
         entity.putComponent(PositionComponent);

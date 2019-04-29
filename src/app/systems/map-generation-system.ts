@@ -8,8 +8,7 @@ export class MapGenerationSystem extends System {
 
     onAttach(engine: Engine) {
         this.generateMapEntities(engine);
-        //map = this.generateBoxes(map, map);
-        //this.buildMapEntity(engine, map);        
+        //map = this.generateBoxes(map, map);  
     }
  
     update() {
@@ -29,12 +28,12 @@ export class MapGenerationSystem extends System {
     }
 
     buildMapEntity(engine: Engine, x: number, y: number, value: TileType) {
-        let entity = new Entity(BlueprintType.Renderable);
-        entity.putComponent(PositionComponent);
+        let entity = engine.buildEntity(BlueprintType.Renderable);
         entity.getComponent(PositionComponent).x = x;
         entity.getComponent(PositionComponent).y = y;
-        entity.putComponent(RenderComponent);
         entity.getComponent(RenderComponent).value = value;
+        entity.getComponent(RenderComponent).color = 'white';
+        entity.getComponent(RenderComponent).background = 'brown';
         engine.addEntity(entity);
     }
 
