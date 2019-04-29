@@ -4,3 +4,4 @@ export * from "./entity";
 export * from "./family";
 export * from "./system";
 export * from './blueprint';
+export * from './entity-factory';

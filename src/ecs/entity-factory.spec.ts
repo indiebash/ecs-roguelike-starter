@@ -104,4 +104,87 @@ describe("Entity factory works", function () {
         const factory = new EntityFactory([], {});
         expect(() => factory['getBlueprintFromType'](<any>'NotFound')).to.throw();
     });
+
+    it("JSON should exist", function () {
+        expect(() => new EntityFactory(undefined, {})).to.throw('Must input json array of blueprints.');
+    });
+
+    it("JSON should be array", function () {
+        expect(() => new EntityFactory({}, {})).to.throw('Must input json array of blueprints.');
+    });
+
+    it("JSON blueprints must all have a name", function () {
+        let testBlueprints = [
+            {
+                "name": "Base",
+                "blueprints": [],
+                "components": [
+                    { "name": "TestComponent1", "values": {value: 'baseChanged'} },
+                    { "name": "TestComponent2", "values": {value: 'baseChanged'} },
+                    { "name": "TestComponent3", "values": {} }
+                ]
+            },
+            {
+                "blueprints": ["Base"],
+                "components": [
+                    { "name": "TestComponent2", "values": {value: 'inheritsChanged'} }
+                ]
+            }
+        ];
+        expect(() => new EntityFactory(testBlueprints, {})).to.throw('All blueprints must have a name.');
+    });
+
+    it("JSON blueprints must all have a unique name", function () {
+        let testBlueprints = [
+            {
+                "name": "Same",
+                "components": [
+                    { "name": "TestComponent1" }
+                ]
+            },
+            {
+                "name": "different",
+                "components": [
+                    { "name": "TestComponent1" }
+                ]
+            },
+            {
+                "name": "Same",
+                "components": [
+                    { "name": "TestComponent1" }
+                ]
+            },
+        ];
+        expect(() => new EntityFactory(testBlueprints, {})).to.throw('All blueprints must have a unique name.');
+    });
+
+    it("JSON blueprints must all implement one or more components", function () {
+        let testBlueprints: any[] = [
+            {
+                "name": "Same",
+                "components": [
+                    { "name": "TestComponent1" }
+                ]
+            },
+            {
+                "name": "different",
+                "components": []
+            }
+        ];
+        expect(() => new EntityFactory(testBlueprints, {})).to.throw('All blueprints must implement one or more components.');
+        
+        testBlueprints = [
+            {
+                "name": "Same",
+                "components": [
+                    { "name": "TestComponent1" }
+                ]
+            },
+            {
+                "name": "different"
+            }
+        ];
+        expect(() => new EntityFactory(testBlueprints, {})).to.throw('All blueprints must implement one or more components.');
+    
+    });
 });

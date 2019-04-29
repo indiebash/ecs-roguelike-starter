@@ -6,12 +6,13 @@ export class EntityFactory {
     private blueprints: Blueprint[] = [];
     private components;
 
-    // TODO - Validate json (no duplicate named blueprints etc);
     // TODO - Implement a caching strategy if we've already built an entity;
     
     constructor(blueprintJson, componentModule) {
-        this.components = componentModule;
-        this.blueprints = this.buildBlueprintsFromJson(blueprintJson);
+        if(this.validateBlueprintJson(blueprintJson)) {
+            this.components = componentModule;
+            this.blueprints = this.buildBlueprintsFromJson(blueprintJson);
+        }
     }
 
     /**
@@ -76,5 +77,21 @@ export class EntityFactory {
         } else {
             return components.map(x => new BlueprintComponent(this.components[x.name], x.values));
         }
+    }
+
+    private validateBlueprintJson(blueprintJson): boolean {
+        if(!blueprintJson || !Array.isArray(blueprintJson)) {
+            throw new Error('Must input json array of blueprints.');
+        }
+        if(blueprintJson.some(b => !b.name)) {
+            throw new Error('All blueprints must have a name.');
+        }
+        if(new Set(blueprintJson.map(b => b.name.toLowerCase())).size !== blueprintJson.length) {
+            throw new Error('All blueprints must have a unique name.');
+        }
+        if(blueprintJson.some(b => !b.components || b.components.length === 0)) {
+            throw new Error('All blueprints must implement one or more components.');
+        }
+        return true;
     }
 }
