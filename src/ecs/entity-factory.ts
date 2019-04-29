@@ -10,7 +10,12 @@ export class EntityFactory {
         this.blueprints = blueprints;
         this.components = components;
     }
-    
+
+    /**
+     * Creates a component of the specified class and adds it to the entity.
+     * @param blueprintType The type of blueprint to build the entity from.
+     * @returns The newly created entity built from given blueprint.
+     */
     public buildEntity(type: BlueprintType): Entity {
         console.log('building from blueprint', this.getBlueprintFromType(type));
         return this.getEntityFromBlueprint(this.getBlueprintFromType(type), new Entity());
