@@ -12,7 +12,7 @@ class MyOtherComponent implements Component {}
 
 describe("Families work", function() {
   it("Empty family returns all entities", function() {
-    const engine = new Engine();
+    const engine = new Engine([], []);
     engine.addEntities(new Entity(), new Entity());
     const builder = new FamilyBuilder(engine);
     const family = builder.build();
@@ -23,7 +23,7 @@ describe("Families work", function() {
     expect(() => builder.build()).to.throw();
   });
   it("Family includes the corresponding entity for inclusion", function() {
-    const engine = new Engine();
+    const engine = new Engine([], []);
     const entity = new Entity();
     entity.putComponent(MyComponent);
     entity.putComponent(MyOtherComponent);
@@ -36,7 +36,7 @@ describe("Families work", function() {
     expect(family.entities.length).to.not.be.equals(0);
   });
   it("Family includes the corresponding entity for exclusion", function() {
-    const engine = new Engine();
+    const engine = new Engine([], []);
     const entity = new Entity();
     entity.putComponent(MyComponent);
     engine.addEntities(entity, new Entity());

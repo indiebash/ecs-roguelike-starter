@@ -3,18 +3,18 @@ import "mocha";
 
 import { EntityFactory } from "./entity-factory";
 import { Component } from "./Component";
-import { Entity } from "./Entity";
+import { Blueprint } from "./blueprint";
 
 describe("Entity factory works", function () {
     it("Can make entity", function () {
         class TestComponent1 implements Component {}
         let testComponents = { TestComponent1 };
 
-        let testBlueprints = [
+        let testBlueprints: Blueprint[] = [
             {
-                "name": "Base",
-                "components": [
-                    { "name": "TestComponent1" }
+                name: "Base",
+                components: [
+                    { name: "TestComponent1" }
                 ]
             }
         ];
@@ -96,24 +96,24 @@ describe("Entity factory works", function () {
 
     it("Blueprint must implement at least one component", function () {
         const factory = new EntityFactory([], {});
-        expect(() => factory['getComponentsFromJson']([])).to.throw();
+        expect(() => factory['getComponentsFromTemplates']([])).to.throw();
     });
     
     it("Blueprint type must exist", function () {
         //TODO enter actual array of types
         const factory = new EntityFactory([], {});
-        expect(() => factory['getBlueprintFromType'](<any>'NotFound')).to.throw();
+        expect(() => factory['getBlueprintFromName'](<any>'NotFound')).to.throw();
     });
 
-    it("JSON should exist", function () {
-        expect(() => new EntityFactory(undefined, {})).to.throw('Must input json array of blueprints.');
+    it("Templates should exist", function () {
+        expect(() => new EntityFactory(undefined, {})).to.throw('Must input array of blueprint templates.');
     });
 
-    it("JSON should be array", function () {
-        expect(() => new EntityFactory({}, {})).to.throw('Must input json array of blueprints.');
+    it("Blueprint templates should be array", function () {
+        expect(() => new EntityFactory(undefined, {})).to.throw('Must input array of blueprint templates.');
     });
 
-    it("JSON blueprints must all have a name", function () {
+    it("Blueprint templates must all have a name", function () {
         let testBlueprints = [
             {
                 "name": "Base",
@@ -125,6 +125,7 @@ describe("Entity factory works", function () {
                 ]
             },
             {
+                "name": undefined,
                 "blueprints": ["Base"],
                 "components": [
                     { "name": "TestComponent2", "values": {value: 'inheritsChanged'} }
@@ -134,7 +135,7 @@ describe("Entity factory works", function () {
         expect(() => new EntityFactory(testBlueprints, {})).to.throw('All blueprints must have a name.');
     });
 
-    it("JSON blueprints must all have a unique name", function () {
+    it("Blueprint templates must all have a unique name", function () {
         let testBlueprints = [
             {
                 "name": "Same",
@@ -158,7 +159,7 @@ describe("Entity factory works", function () {
         expect(() => new EntityFactory(testBlueprints, {})).to.throw('All blueprints must have a unique name.');
     });
 
-    it("JSON blueprints must all implement one or more components", function () {
+    it("Blueprint templates must all implement one or more components", function () {
         let testBlueprints: any[] = [
             {
                 "name": "Same",

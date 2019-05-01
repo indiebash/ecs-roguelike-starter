@@ -1,14 +1,16 @@
-import { System, Engine, Entity } from "../../ecs";
-import { Map, RNG } from 'rot-js';
-import { TileType, BlueprintType } from "../constants";
+import { System, Engine } from "../../ecs";
+import { Map } from 'rot-js';
+import { TileType } from "../constants";
 import { PositionComponent } from "../components";
 import { RenderComponent } from "../components/render-component";
+import { BlueprintType } from "../blueprints";
+const bp = BlueprintType;
 
 export class MapGenerationSystem extends System {
+    
 
     onAttach(engine: Engine) {
         this.generateMapEntities(engine);
-        //map = this.generateBoxes(map, map);  
     }
  
     update() {
@@ -28,7 +30,7 @@ export class MapGenerationSystem extends System {
     }
 
     buildMapEntity(engine: Engine, x: number, y: number, value: TileType) {
-        let entity = engine.buildEntity(BlueprintType.Renderable);
+        let entity = engine.buildEntity(bp.Renderable);
         entity.getComponent(PositionComponent).x = x;
         entity.getComponent(PositionComponent).y = y;
         entity.getComponent(RenderComponent).value = value;
@@ -36,12 +38,4 @@ export class MapGenerationSystem extends System {
         entity.getComponent(RenderComponent).background = 'brown';
         engine.addEntity(entity);
     }
-
-    // generateBoxes(freeCells: MapTile[], map: MapTile[]) {
-    //     for (var i=0;i<10;i++) {
-    //         var index = Math.floor(RNG.getUniform() * freeCells.length);
-    //         map[index].value = TileType.box;
-    //     }
-    //     return map;
-    // }
 }

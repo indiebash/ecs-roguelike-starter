@@ -3,7 +3,7 @@ import { ComponentClass, Component } from "./Component";
 type EntityChangeListener = (entity: Entity) => any;
 
 /**
- * An Entity is every object you may have on your system.
+ * An Entity is every object you may have in your game.
  * A character, a weapon, an skill, a map.
  * Everything is an Entity.
  * Entities are bag of Components, and Components describe how the data exists on
@@ -68,7 +68,6 @@ class Entity {
    * with it's corresponding types.
    * @returns a list of all components with types of the entity.
    */
-
   listComponentsWithTypes() {
     return Object.keys(this._components).map(i => ({
       component: this._components[i],

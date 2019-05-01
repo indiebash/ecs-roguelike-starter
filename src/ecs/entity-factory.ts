@@ -1,37 +1,36 @@
-import { BlueprintType } from "../app/constants";
-import { Blueprint, BlueprintComponent } from "./blueprint";
+import { BlueprintClass, BlueprintComponent, Blueprint } from "./blueprint";
 import { Entity } from "./entity";
 
 export class EntityFactory {
-    private blueprints: Blueprint[] = [];
+    private blueprints: BlueprintClass[] = [];
     private components;
 
     // TODO - Implement a caching strategy if we've already built an entity;
     
-    constructor(blueprintJson, componentModule) {
-        if(this.validateBlueprintJson(blueprintJson)) {
+    constructor(blueprintTemplates: Blueprint[], componentModule) {
+        if(this.validateBlueprints(blueprintTemplates)) {
             this.components = componentModule;
-            this.blueprints = this.buildBlueprintsFromJson(blueprintJson);
+            this.blueprints = this.buildBlueprintsFromTemplates(blueprintTemplates);
         }
     }
 
     /**
      * Creates a component of the specified class and adds it to the entity.
-     * @param blueprintType The type of blueprint to build the entity from.
+     * @param name The name of blueprint to build the entity from.
      * @returns The newly created entity built from given blueprint.
      */
-    public buildEntity(type: BlueprintType): Entity {
-        return this.getEntityFromBlueprint(this.getBlueprintFromType(type), new Entity());
+    public buildEntity(name: string): Entity {
+        return this.getEntityFromBlueprint(this.getBlueprintFromName(name), new Entity());
     }
 
-    private getEntityFromBlueprint(blueprint: Blueprint, entity: Entity): Entity {
+    private getEntityFromBlueprint(blueprint: BlueprintClass, entity: Entity): Entity {
 
         // Recursively add components from inherited blueprints
-        blueprint.blueprints.forEach(x => {
-            entity = this.getEntityFromBlueprint(this.getBlueprintFromType(x), entity);
+        blueprint.blueprintNames.forEach(x => {
+            entity = this.getEntityFromBlueprint(this.getBlueprintFromName(x), entity);
         });
 
-        blueprint.components.forEach(x => {
+        blueprint.blueprintComponents.forEach(x => {
             entity.putComponent(<any>x.component);
 
             // Overwrite values of component based off of blueprint;
@@ -44,54 +43,61 @@ export class EntityFactory {
         return entity;
     }
 
-    private getBlueprintFromType(type: BlueprintType): Blueprint {
-        let blueprint = this.blueprints.find(x => x.name === type);
+    private getBlueprintFromName(name: string): BlueprintClass {
+        let blueprint = this.blueprints.find(x => x.name === name);
         if (!blueprint) {
             throw new Error("Cannot find blueprint by that name.");
         }
         return blueprint;
     }
 
-    private buildBlueprintsFromJson(jsonBlueprints): Blueprint[] {
-        return jsonBlueprints.map(x =>
-            new Blueprint(
-                x.name,
-                this.getComponentsFromJson(x.components),
-                this.hasBlueprints(x) ? x.blueprints : []
-            )
+    private buildBlueprintsFromTemplates(blueprintTemplates: Blueprint[]): BlueprintClass[] {
+        return blueprintTemplates.map(x =>
+            new BlueprintClass({
+                name: x.name,
+                blueprintComponents: this.getComponentsFromTemplates(x.components),
+                blueprintNames: this.hasBlueprints(x) ? x.blueprints : []
+            })
         );
     }
 
-    private hasBlueprints(jsonBlueprint) {
-        return jsonBlueprint.blueprints && jsonBlueprint.blueprints.length > 0;
+    private hasBlueprints(blueprintTemplate: Blueprint) {
+        return blueprintTemplate.blueprints && blueprintTemplate.blueprints.length > 0;
     }
 
     /**
-     * Converts json components to blueprint components.
+     * Converts template components to blueprint components.
      * @throws if the list is empty.
-     * @param components json array for the blueprints components.
+     * @param components template array for the blueprints components.
     */
-    private getComponentsFromJson(components): BlueprintComponent[] {
+    private getComponentsFromTemplates(components): BlueprintComponent[] {
         if (!components || components.length === 0) {
             throw new Error("Blueprint must implement one or more components.");
         } else {
-            return components.map(x => new BlueprintComponent(this.components[x.name], x.values));
+            return components.map(x => new BlueprintComponent({
+                component: this.components[x.name], 
+                values: x.values
+            }));
         }
     }
 
-    private validateBlueprintJson(blueprintJson): boolean {
-        if(!blueprintJson || !Array.isArray(blueprintJson)) {
-            throw new Error('Must input json array of blueprints.');
+    private validateBlueprints(blueprints: Blueprint[]): boolean {
+        if(!blueprints || !Array.isArray(blueprints)) {
+            throw new Error('Must input array of blueprint templates.');
         }
-        if(blueprintJson.some(b => !b.name)) {
+        if(blueprints.some(b => !b.name || b.name.length < 1)) {
             throw new Error('All blueprints must have a name.');
         }
-        if(new Set(blueprintJson.map(b => b.name.toLowerCase())).size !== blueprintJson.length) {
+        if(new Set(blueprints.map(b => b.name.toLowerCase())).size !== blueprints.length) {
             throw new Error('All blueprints must have a unique name.');
         }
-        if(blueprintJson.some(b => !b.components || b.components.length === 0)) {
+        if(blueprints.some(b => !b.components || b.components.length === 0)) {
             throw new Error('All blueprints must implement one or more components.');
         }
+        // TODO - All blueprint name references must exist.
+        // TODO - All component name references must exist.
+        // TODO - All component values must exist.
+        // TODO - Log problem blueprint for each of these issues to aid in debugging. 
         return true;
     }
 }
