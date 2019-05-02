@@ -5,7 +5,7 @@ export class EntityFactory {
     private blueprints: BlueprintClass[] = [];
     private components;
 
-    // TODO - Implement a caching strategy if we've already built an entity;
+    // TODO - Consider a caching strategy if we've already built an entity;
     
     constructor(blueprintTemplates: Blueprint[], componentModule) {
         if(this.validateBlueprints(blueprintTemplates)) {

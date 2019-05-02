@@ -24,13 +24,14 @@ class Engine {
   private _systemsNeedSorting: boolean = false;
   /** Factory for creating entities based off blueprints */
   private entityFactory: EntityFactory;
-  /** Enum of all blueprint types to check against */
+  /** Enum of all blueprints for type checking purposes */
   private blueprintTypes;
 
   /**
    * Constructs new engine.
    * @param blueprints Array of blueprints.
-   * @param components Exported module containing all components. 
+   * @param components Exported module containing all components.
+   * @param blueprintTypes Optional enum of blueprint types for type checking. 
    */
   constructor(components, blueprints: Blueprint[], blueprintTypes?) {
     this.entityFactory = new EntityFactory(blueprints, components);
@@ -42,7 +43,6 @@ class Engine {
    * @throws if the type doesn't match any added blueprintTypes.
    */
   buildEntity(type: string | number): Entity {
-    // TODO - test this logic below.
     if(this.blueprintTypes) {
       if(!this.blueprintTypes[type]) {
         throw new Error(`Invalid blueprint type: ${type}`); 
