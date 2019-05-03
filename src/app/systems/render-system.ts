@@ -1,4 +1,4 @@
-import { Family, Engine, FamilyBuilder, System } from "../../ecs";
+import { Family, Engine, FamilyBuilder, System } from '@mesa-engine/core';
 import { Display } from "rot-js";
 import { PositionComponent, RenderComponent } from "../components";
 import { DisplayOptions } from "rot-js/lib/display/types";

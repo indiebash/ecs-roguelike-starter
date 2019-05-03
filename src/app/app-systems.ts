@@ -1,4 +1,4 @@
-import { System } from "../ecs";
+import { System } from '@mesa-engine/core';
 import * as app from "./systems";
 
 const appSystems: System[] = [

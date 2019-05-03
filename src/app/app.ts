@@ -1,5 +1,5 @@
 import { appSystems } from "./app-systems";
-import { Engine, Entity } from "../ecs";
+import { Engine, Entity } from '@mesa-engine/core';
 import { PositionComponent } from "./components";
 import * as components from './components';
 import { blueprints, BlueprintType } from "./blueprints";

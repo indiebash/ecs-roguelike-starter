@@ -1,4 +1,4 @@
-import { System, Engine } from "../../ecs";
+import { System, Engine } from '@mesa-engine/core';
 import { Map } from 'rot-js';
 import { TileType } from "../constants";
 import { PositionComponent } from "../components";

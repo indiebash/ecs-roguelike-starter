@@ -1,4 +1,4 @@
-import { Component } from "../../ecs";
+import { Component } from '@mesa-engine/core';
 
 export class RenderComponent implements Component {
     value: string;

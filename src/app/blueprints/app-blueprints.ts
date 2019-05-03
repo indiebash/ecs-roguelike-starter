@@ -1,4 +1,4 @@
-import { Blueprint } from "../../ecs";
+import { Blueprint } from '@mesa-engine/core';
 
 export var blueprints: Blueprint[] = [
     {
