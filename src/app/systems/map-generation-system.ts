@@ -3,8 +3,7 @@ import { Map } from 'rot-js';
 import { TileType } from "../constants";
 import { PositionComponent } from "../components";
 import { RenderComponent } from "../components/render-component";
-import { BlueprintType } from "../blueprints";
-const bp = BlueprintType;
+import { Renderable } from "../blueprints";
 
 export class MapGenerationSystem extends System {
     
@@ -30,7 +29,7 @@ export class MapGenerationSystem extends System {
     }
 
     buildMapEntity(engine: Engine, x: number, y: number, value: TileType) {
-        let entity = engine.buildEntity(bp.Renderable);
+        let entity = engine.buildEntity(Renderable);
         entity.getComponent(PositionComponent).x = x;
         entity.getComponent(PositionComponent).y = y;
         entity.getComponent(RenderComponent).value = value;

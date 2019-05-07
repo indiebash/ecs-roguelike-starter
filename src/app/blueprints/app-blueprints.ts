@@ -1,18 +1,11 @@
 import { Blueprint } from '@mesa-engine/core';
+import * as c from '../components';
 
-export var blueprints: Blueprint[] = [
-    {
-        name: "Renderable",
-        components: [
-            { name: "PositionComponent" },
-            { name: "RenderComponent" }
-        ]
-    },
-    {
-        name: "Player",
-        blueprints: ["Renderable"],
-        components: [
-            { name: "RenderComponent", values: {value: "@"} }
-        ]
-    }
-]
+export class Renderable implements Blueprint {
+    components = [{component: c.PositionComponent}, {component: c.RenderComponent}];
+}
+
+export class Player implements Blueprint {
+    components = [{component: c.RenderComponent}];
+    blueprints = [new Renderable]
+}
