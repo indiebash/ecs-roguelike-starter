@@ -32,7 +32,7 @@ export class MapGenerationSystem extends System {
         let entity = engine.buildEntity(Renderable);
         entity.getComponent(PositionComponent).x = x;
         entity.getComponent(PositionComponent).y = y;
-        entity.getComponent(RenderComponent).value = value;
+        entity.getComponent(RenderComponent).character = value;
         entity.getComponent(RenderComponent).color = 'white';
         entity.getComponent(RenderComponent).background = 'brown';
         engine.addEntity(entity);

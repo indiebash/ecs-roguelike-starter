@@ -6,6 +6,6 @@ export class Renderable implements Blueprint {
 }
 
 export class Player implements Blueprint {
-    components = [{component: c.RenderComponent}];
+    components = [{component: c.RenderComponent, values: {sprite: '@'}}];
     blueprints = [new Renderable]
 }

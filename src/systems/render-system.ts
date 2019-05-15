@@ -3,7 +3,7 @@ import { Display } from "rot-js";
 import { PositionComponent, RenderComponent } from "../components";
 import { DisplayOptions } from "rot-js/lib/display/types";
 // @ts-ignore
-import tilesetImage from "../../img/tileset2.png";
+import tilesetImage from "../img/tileset2.png";
 
 export class RenderSystem extends System {
     //tileset: HTMLImageElement
@@ -42,7 +42,7 @@ export class RenderSystem extends System {
         for (let entity of this.family.entities) {
             let position = entity.getComponent(PositionComponent);
             let render = entity.getComponent(RenderComponent);
-            engine['display'].draw(position.x, position.y, render.value, render.color, render.background);
+            engine['display'].draw(position.x, position.y, render.character, render.color, render.background);
         }
     }
 }
